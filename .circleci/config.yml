@@ -33,4 +33,15 @@ jobs:
          
       # run tests
       - run: npm test
-
+ 
+      # You can create environment variable to secure your credentials. See https://circleci.com/docs/2.0/env-vars/#declaring-environment-variables
+      - run: docker login -u="remyma+circleci" -p="UGP6QB9VUPKCBV1L13V15K2SCXFFDKACP5RXM0VXGR29CZNOJVCZWVG51EFD8871" quay.io
+ 
+      # build the application image
+      - run: docker build -t remyma/node-openshift-ex .
+ 
+      # Tag the image
+      - run: docker tag remyma/node-openshift-ex quay.io/<github_username>/node-openshift-ex:latest
+ 
+      # deploy the image
+      - run: docker push quay.io/remyma/node-openshift-ex:latest
